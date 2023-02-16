@@ -30,8 +30,9 @@ export class CommentService {
   }
 
   public async delete(userId: number, id: number) {
-    const comment = await this.commentRepository.findOne({ where: { id, user: { id: userId } } });
-
+    const comment = await this.commentRepository.findOne({
+      where: { id, user: { id: userId } },
+    });
     if (!comment) {
       throw new NotFoundException();
     }

@@ -17,7 +17,7 @@ export class CommentController {
     return this.commentService.create(userId, portfolioId, imageId, body);
   }
 
-  @Delete()
+  @Delete('/:id')
   public async delete(@UserParam('id') userId: number, @Param('id', ParseIntPipe) id: number) {
     return this.commentService.delete(userId, id);
   }

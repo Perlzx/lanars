@@ -28,7 +28,7 @@ export class Image {
       id: this.id,
       name: this.name,
       description: this.description,
-      url: this.buildUrl(this.portfolio.id, this.id),
+      url: Image.buildUrl(this.portfolio.id, this.id),
       createdAt: this.createdAt,
       ...(this.comments && {
         comments: this.comments.map((comment) => ({
@@ -44,7 +44,14 @@ export class Image {
     };
   }
 
-  private buildUrl(portfolioId: number, id: number) {
-    return `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/images/${portfolioId}/${id}.jpg`;
+  public static buildUrl(portfolioId: number, id: number) {
+    return `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${Image.buildKey(
+      portfolioId,
+      id,
+    )}`;
+  }
+
+  public static buildKey(portfolioId: number, id: number) {
+    return `images/${portfolioId}/${id}.jpg`;
   }
 }

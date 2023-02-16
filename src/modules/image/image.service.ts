@@ -29,7 +29,7 @@ export class ImageService {
 
     const presignedUrl = await createPresignedPost(this.s3, {
       Bucket: process.env.S3_BUCKET_NAME,
-      Key: `images/${userId}/${portfolioId}/${image.id}.jpg`,
+      Key: Image.buildKey(portfolioId, image.id),
       Expires: 3600,
       Conditions: [['content-length-range', 0, 10 * 1024 * 1024]],
     });
@@ -96,7 +96,7 @@ export class ImageService {
       .send(
         new DeleteObjectCommand({
           Bucket: process.env.S3_BUCKET_NAME,
-          Key: image.toAPI().url,
+          Key: Image.buildUrl(portfolioId, id),
         }),
       )
       .catch((e) => {
